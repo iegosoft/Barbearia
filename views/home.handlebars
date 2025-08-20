@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barbearia Profissional</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@600;700&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/home.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="container">
+      <img src="img/logo.png" alt="Logo Barbearia" class="logo" />
+      <nav>
+        <a href="#agendamento">Agendar Serviço</a>
+        <a href="#horarios">Horários</a>
+        <a href="/admin/login"><i class="bi bi-shield-lock"></i> Área do Administrador</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="banner principal">
+    <div class="container">
+      <h1>Bem-vindo à BarberShop</h1>
+      <p>Estilo, cuidado e atendimento de qualidade</p>
+    </div>
+  </section>
+
+  <section id="agendamento" class="banner-card split-banner" style="background-image: url('img/banner1.png')">
+    <div class="imagem">
+      <img src="img/agendamento1.jpg" alt="Barbeiro" class="imagem-extra" />
+    </div>
+    <div class="overlay overlay-agendamento">
+      <div class="form-agendamento">
+        <h2>Agende seu horário</h2>
+        <form action="/agendar" method="POST">
+          <input type="text" name="nome" placeholder="Nome completo" required />
+          <input type="text" name="telefone" placeholder="Telefone" required />
+          <input type="date" name="data" required />
+          <input type="time" name="hora" required />
+          <select name="servico" required>
+            <option value="">Selecione um serviço</option>
+            <option value="Corte">Corte - R$30</option>
+            <option value="Barba">Barba - R$20</option>
+            <option value="Corte + Barba">Corte + Barba - R$45</option>
+          </select>
+
+          {{#if sucesso}}
+            <p class="sucesso">✅ Agendamento realizado com sucesso!</p>
+          {{/if}}
+
+          {{#if erro}}
+            <p class="erro">❌ {{erro}}</p>
+          {{/if}}
+
+          <button type="submit">
+            <i class="bi bi-calendar-check"></i> Agendar
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOVA SEÇÃO DE HORÁRIOS DISPONÍVEIS -->
+  <section id="horarios" class="banner-card split-banner" style="background-image: url('img/banner-horarios.png')">
+    <div class="imagem">
+      <img src="img/horarios.jpg" alt="Horários Disponíveis" class="imagem-extra" />
+    </div>
+    <div class="overlay">
+      <h2>Horários Disponíveis na Semana</h2>
+      <ul class="horarios-lista">
+        <li><span class="servico-nome">Segunda </span><span class="servico-preco"> 09:00 às 18:00 </span></li>
+        <li><span class="servico-nome">Terça </span><span class="servico-preco">09:00 às 18:00</span></li>
+        <li><span class="servico-nome">Quarta </span><span class="servico-preco">09:00 às 18:00</span></li>
+         <li><span class="servico-nome">Quinta </span><span class="servico-preco">09:00 às 18:00</span></li>
+        <li><span class="servico-nome">Sexta</span><span class="servico-preco">09:00 às 18:00</span></li>
+        <li><span class="servico-nome">Sábado</span><span class="servico-preco">09:00 às 14:00</span></li>
+        <li><span class="servico-nome">Domingo</span><span class="servico-preco">Fechado</span></li>
+    </div>
+  </section>
+
+  <section class="banner-card split-banner" style="background-image: url('img/servicos-banner.png')">
+    <div class="imagem">
+      <img src="img/barbeiro-extra2.jpg" alt="Serviço" class="imagem-extra" />
+    </div>
+    <div class="overlay">
+      <h2>💈Nossos Serviços</h2>
+      <ul class="servicos-lista">
+        <li><span class="servico-nome">Corte</span><span class="servico-preco">R$30</span></li>
+        <li><span class="servico-nome">Barba</span><span class="servico-preco">R$20</span></li>
+        <li><span class="servico-nome">Corte + Barba</span><span class="servico-preco">R$45</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="banner-card barbeiros" style="background-image: url('img/barbeiros-banner.jpg')">
+    <div class="overlay">
+      <h2>Nossos Barbeiros 💈</h2>
+      <div class="barbeiros-lista">
+        <div class="barbeiro">
+          <img src="img/barbeiro1.jpg" alt="IEGO COSTA" />
+          <h3>IEGO COSTA</h3>
+          <p>Especialista em cortes clássicos e barba desenhada.</p>
+        </div>
+        <div class="barbeiro">
+          <img src="img/barbeiro2.jpg" alt="CHOZE" />
+          <h3>CHOZE</h3>
+          <p>Barbeiro moderno, traz tendências com estilo único.</p>
+        </div>
+        <div class="barbeiro">
+          <img src="img/barbeiro3.jpg" alt="MARGARIDA" />
+          <h3>MARGARIDA</h3>
+          <p>Mais de 10 anos de experiência com cortes masculinos.</p>
+        </div>
+        <div class="barbeiro">
+          <img src="img/barbeiro5.jpg" alt="KARINA" />
+          <h3>KARINA</h3>
+          <p>Mais de 10 anos de experiência com cortes masculinos.</p>
+        </div>
+        <div class="barbeiro">
+          <img src="img/barbeiro4.jpg" alt="ELIZABETH" />
+          <h3>ELIZABETH</h3>
+          <p>Mais de 10 anos de experiência com cortes masculinos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="rodape">
+    <div class="container">
+      <p>&copy; 2025 BarberShop. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector("a[href^='#agendamento']").addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelector('#agendamento').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    document.querySelector("a[href^='#horarios']").addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelector('#horarios').scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>
