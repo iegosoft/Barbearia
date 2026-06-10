@@ -3,19 +3,23 @@ const router = express.Router();
 const Usuario = require('../models/Usuario');
 
 router.post('/login', async (req, res) => {
-  const { usuario, senha } = req.body;
+  try {
+    const { usuario, senha } = req.body;
 
-  if (!usuario || !usuario.trim()) return res.status(400).json({ erro: 'Usuário é obrigatório' });
-  if (!senha || !senha.trim()) return res.status(400).json({ erro: 'Senha é obrigatória' });
+    if (!usuario || !usuario.trim()) return res.status(400).json({ erro: 'Usuário é obrigatório' });
+    if (!senha || !senha.trim()) return res.status(400).json({ erro: 'Senha é obrigatória' });
 
-  const admin = await Usuario.findOne({ usuario });
-  if (!admin) return res.status(401).json({ erro: 'Usuário não encontrado' });
+    const admin = await Usuario.findOne({ usuario });
+    if (!admin) return res.status(401).json({ erro: 'Usuário não encontrado' });
 
-  const senhaValida = await admin.validarSenha(senha);
-  if (!senhaValida) return res.status(401).json({ erro: 'Senha incorreta' });
+    const senhaValida = await admin.validarSenha(senha);
+    if (!senhaValida) return res.status(401).json({ erro: 'Senha incorreta' });
 
-  req.session.usuario = admin.usuario;
-  res.json({ sucesso: true, usuario: admin.usuario });
+    req.session.usuario = admin.usuario;
+    res.json({ sucesso: true, usuario: admin.usuario });
+  } catch {
+    res.status(500).json({ erro: 'Erro interno ao processar login' });
+  }
 });
 
 router.post('/logout', (req, res) => {
