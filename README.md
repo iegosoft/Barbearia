@@ -8,6 +8,7 @@ Sistema web completo para gerenciamento de agendamentos em barbearias. Desenvolv
 
 - [Sobre o projeto](#sobre-o-projeto)
 - [Funcionalidades](#funcionalidades)
+- [Telas do sistema](#telas-do-sistema)
 - [Demonstração](#demonstração)
 - [Arquitetura](#arquitetura)
 - [Tecnologias](#tecnologias)
@@ -46,6 +47,25 @@ O BarberShop permite que **clientes agendem serviços de forma autônoma** e que
 - Edição completa de qualquer agendamento
 - Remoção de agendamentos
 - Estatísticas sincronizadas com banco sem recarregar página
+
+---
+
+## Telas do sistema
+
+### Página inicial — Hero e navegação
+![Home](docs/screenshots/01-home.png)
+
+### Formulário de agendamento
+![Agendamento](docs/screenshots/02-agendamento.png)
+
+### Login do administrador
+![Login](docs/screenshots/03-login.png)
+
+### Painel administrativo — Cards de estatísticas e filtros
+![Painel Admin](docs/screenshots/04-painel-admin.png)
+
+### Painel administrativo — Lista de agendamentos
+![Painel Admin Tabela](docs/screenshots/05-painel-admin-tabela.png)
 
 ---
 
