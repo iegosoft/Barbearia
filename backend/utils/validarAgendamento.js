@@ -1,6 +1,7 @@
 const SERVICOS_VALIDOS = ['Corte', 'Barba', 'Corte + Barba'];
+const BARBEIROS_VALIDOS = ['Iego Costa', 'Choze', 'Margarida', 'Karina', 'Elizabeth'];
 
-function validarAgendamento({ nome, telefone, data, hora, servico }) {
+function validarAgendamento({ nome, telefone, data, hora, servico, barbeiro }) {
   const erros = [];
 
   // Campos obrigatórios e formatos
@@ -24,6 +25,11 @@ function validarAgendamento({ nome, telefone, data, hora, servico }) {
     erros.push('Serviço é obrigatório');
   else if (!SERVICOS_VALIDOS.includes(servico))
     erros.push('Serviço inválido. Escolha: Corte, Barba ou Corte + Barba');
+
+  if (!barbeiro)
+    erros.push('Barbeiro é obrigatório');
+  else if (!BARBEIROS_VALIDOS.includes(barbeiro))
+    erros.push('Barbeiro inválido');
 
   // Regras de data e horário (só valida se ambos foram informados)
   if (data && hora) {

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 export default function Editar() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const [form, setForm] = useState({ nome: '', telefone: '', data: '', hora: '', servico: '' })
+  const [form, setForm] = useState({ nome: '', telefone: '', data: '', hora: '', servico: '', barbeiro: '', status: 'pendente' })
   const [erro, setErro] = useState('')
   const [sidebarAberta, setSidebarAberta] = useState(false)
 
@@ -17,6 +17,8 @@ export default function Editar() {
         data: data.data || '',
         hora: data.hora || '',
         servico: data.servico || '',
+        barbeiro: data.barbeiro || '',
+        status: data.status || 'pendente',
       }))
   }, [id])
 
@@ -183,6 +185,32 @@ export default function Editar() {
                   <option value="Corte">Corte — R$ 30</option>
                   <option value="Barba">Barba — R$ 20</option>
                   <option value="Corte + Barba">Corte + Barba — R$ 45</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-gray-600 text-xs uppercase tracking-[0.2em] mb-2">Barbeiro</label>
+                <select
+                  className="w-full px-4 py-3 rounded-lg bg-dark-800 border border-dark-600 text-white focus:outline-none focus:border-gold transition-colors text-sm"
+                  name="barbeiro" required
+                  value={form.barbeiro} onChange={e => setForm({ ...form, barbeiro: e.target.value })}
+                >
+                  <option value="">Selecione o barbeiro</option>
+                  {['Iego Costa', 'Choze', 'Margarida', 'Karina', 'Elizabeth'].map(b => (
+                    <option key={b} value={b}>{b}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-gray-600 text-xs uppercase tracking-[0.2em] mb-2">Status</label>
+                <select
+                  className="w-full px-4 py-3 rounded-lg bg-dark-800 border border-dark-600 text-white focus:outline-none focus:border-gold transition-colors text-sm"
+                  name="status"
+                  value={form.status} onChange={e => setForm({ ...form, status: e.target.value })}
+                >
+                  <option value="pendente">Pendente</option>
+                  <option value="concluido">Concluído</option>
+                  <option value="remarcado">Remarcado</option>
+                  <option value="cancelado">Cancelado</option>
                 </select>
               </div>
 
