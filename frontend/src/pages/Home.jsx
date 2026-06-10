@@ -196,7 +196,6 @@ export default function Home() {
             >
               Agendar
             </button>
-            <a href="/admin/login" className="text-stone-400 hover:text-gold text-xs transition-colors">Admin</a>
           </nav>
 
           <button
@@ -229,7 +228,6 @@ export default function Home() {
                 {item.label}
               </button>
             ))}
-            <a href="/admin/login" className="text-stone-400 text-sm">Área Admin</a>
           </div>
         )}
       </header>
@@ -585,9 +583,6 @@ export default function Home() {
           <p className="text-stone-600 text-sm font-playfair text-center">
             © 2025 BarberShop. Todos os direitos reservados.
           </p>
-          <a href="/admin/login" className="text-stone-700 hover:text-gold text-xs transition-colors">
-            Área Administrativa
-          </a>
         </div>
       </footer>
 
