@@ -537,11 +537,11 @@ export default function Home() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6">
             {barbeiros.map(b => (
               <div key={b.nome} className="group text-center">
-                <div className="relative overflow-hidden rounded-2xl mb-3 aspect-square">
+                <div className="relative overflow-hidden rounded-2xl mb-3 aspect-[3/4]">
                   <img
                     src={b.img}
                     alt={b.nome}
-                    className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
+                    className="w-full h-full object-cover object-[center_15%] grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
                   />
                   <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-gold/40 transition-all duration-300" />
                 </div>
@@ -581,7 +581,7 @@ export default function Home() {
       {/* ── Footer ── */}
       <footer className="bg-stone-950 py-8 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-          <img src="/img/logo.png" alt="BarberShop" className="h-8 opacity-50" />
+          <img src="/img/logo.png" alt="BarberShop" className="h-8 opacity-100" />
           <p className="text-stone-600 text-sm font-playfair text-center">
             © 2025 BarberShop. Todos os direitos reservados.
           </p>
