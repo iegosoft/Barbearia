@@ -130,7 +130,7 @@ const depoimentos = [
 
 /* ── Component ───────────────────────────────────────────────── */
 export default function Home() {
-  const [form, setForm] = useState({ nome: '', telefone: '', data: '', hora: '', servico: '' })
+  const [form, setForm] = useState({ nome: '', telefone: '', data: '', hora: '', servico: '', barbeiro: '' })
   const [status, setStatus] = useState(null)
   const [erroMsg, setErroMsg] = useState('')
   const [menuAberto, setMenuAberto] = useState(false)
@@ -148,7 +148,7 @@ export default function Home() {
       const data = await res.json()
       if (res.ok) {
         setStatus('sucesso')
-        setForm({ nome: '', telefone: '', data: '', hora: '', servico: '' })
+        setForm({ nome: '', telefone: '', data: '', hora: '', servico: '', barbeiro: '' })
       } else {
         setStatus('erro')
         setErroMsg(data.erro || 'Erro ao realizar agendamento.')
@@ -469,6 +469,16 @@ export default function Home() {
                 <option value="Corte">Corte — R$ 30</option>
                 <option value="Barba">Barba — R$ 20</option>
                 <option value="Corte + Barba">Corte + Barba — R$ 45</option>
+              </select>
+              <select
+                className="w-full px-4 py-3 rounded-lg border border-stone-300 text-stone-900 focus:outline-none focus:border-gold transition-colors text-sm bg-white"
+                name="barbeiro" required
+                value={form.barbeiro} onChange={e => setForm({ ...form, barbeiro: e.target.value })}
+              >
+                <option value="">Escolha seu barbeiro</option>
+                {['Iego Costa', 'Choze', 'Margarida', 'Karina', 'Elizabeth'].map(b => (
+                  <option key={b} value={b}>{b}</option>
+                ))}
               </select>
 
               {status === 'sucesso' && (
