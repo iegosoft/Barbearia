@@ -169,8 +169,11 @@ export default function Home() {
 
       {/* ── Header ── */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/96 backdrop-blur-sm border-b border-stone-200">
-        <div className="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between">
-          <img src="/img/logo.png" alt="BarberShop" className="h-10" />
+        <div className="max-w-7xl mx-auto px-5 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img src="/img/logo.png" alt="BarberShop" className="h-14" />
+            <span className="font-bebas text-stone-900 text-2xl tracking-[0.2em] hidden md:block">BARBERSHOP</span>
+          </div>
 
           <nav className="hidden md:flex items-center gap-8">
             {[
@@ -232,12 +235,12 @@ export default function Home() {
       </header>
 
       {/* Header offset */}
-      <div className="h-16" />
+      <div className="h-20" />
 
-      {/* ── Hero (Split, altura reduzida) ── */}
-      <section className="flex flex-col lg:flex-row h-auto lg:h-[540px]">
+      {/* ── Hero ── */}
+      <section className="flex flex-col lg:flex-row h-auto lg:h-[620px]">
         {/* Conteúdo */}
-        <div className="order-2 lg:order-1 flex-1 flex items-center bg-cream px-8 sm:px-12 lg:px-16 xl:px-20 py-14 lg:py-0">
+        <div className="order-2 lg:order-1 lg:w-[45%] flex items-center bg-cream px-8 sm:px-12 lg:px-16 xl:px-20 py-14 lg:py-0">
           <div className="max-w-md">
             <p className="font-playfair italic text-gold text-sm tracking-wide mb-4">Premium Barbershop</p>
             <h1 className="font-bebas text-stone-900 text-[4.5rem] sm:text-[5.5rem] lg:text-[5.5rem] xl:text-[6rem] leading-none tracking-wide mb-5">
@@ -266,11 +269,11 @@ export default function Home() {
           </div>
         </div>
         {/* Imagem */}
-        <div className="order-1 lg:order-2 w-full h-60 sm:h-72 lg:h-full lg:flex-1 relative overflow-hidden">
+        <div className="order-1 lg:order-2 w-full h-[55vw] sm:h-[420px] lg:h-full lg:flex-1 relative overflow-hidden">
           <img
             src="/img/barbershop-interior.jpg"
             alt="Interior da BarberShop"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-stone-900/10" />
         </div>
@@ -293,12 +296,12 @@ export default function Home() {
       </section>
 
       {/* ── Sobre ── */}
-      <section id="sobre" className="flex flex-col lg:flex-row lg:h-[440px]">
-        <div className="w-full h-64 sm:h-80 lg:h-full lg:w-5/12 relative overflow-hidden">
+      <section id="sobre" className="flex flex-col lg:flex-row lg:h-[480px]">
+        <div className="w-full h-[70vw] sm:h-[420px] lg:h-full lg:w-5/12 relative overflow-hidden">
           <img
             src="/img/barber-cutting.jpg"
             alt="Barbeiro trabalhando"
-            className="w-full h-full object-cover object-[center_20%]"
+            className="w-full h-full object-cover object-center"
           />
         </div>
         <div className="flex-1 bg-white px-8 sm:px-12 lg:px-14 py-12 lg:py-16 flex flex-col justify-center">
