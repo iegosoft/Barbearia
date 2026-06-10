@@ -108,11 +108,11 @@ const servicos = [
 
 const galeria = [
   { img: '/img/corte2.jpg',         titulo: 'Degradê Clássico' },
-  { img: '/img/barber-cutting.jpg', titulo: 'Corte + Barba' },
   { img: '/img/corte1.jpg',         titulo: 'Corte Social' },
-  { img: '/img/corte4.jpg',         titulo: 'Estilo Premium' },
-  { img: '/img/corte3.jpg',         titulo: 'Atendimento Duplo' },
+  { img: '/img/barber-cutting.jpg', titulo: 'Corte + Barba' },
   { img: '/img/corte5.jpg',         titulo: 'Máquina Precisa' },
+  { img: '/img/corte3.jpg',         titulo: 'Atendimento Duplo' },
+  { img: '/img/corte4.jpg',         titulo: 'Estilo Premium' },
 ]
 
 const diferenciais = [
@@ -292,13 +292,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Sobre (altura reduzida) ── */}
-      <section id="sobre" className="flex flex-col lg:flex-row">
-        <div className="w-full h-64 sm:h-80 lg:h-auto lg:w-5/12 relative overflow-hidden">
+      {/* ── Sobre ── */}
+      <section id="sobre" className="flex flex-col lg:flex-row lg:h-[440px]">
+        <div className="w-full h-64 sm:h-80 lg:h-full lg:w-5/12 relative overflow-hidden">
           <img
             src="/img/barber-cutting.jpg"
             alt="Barbeiro trabalhando"
-            className="w-full h-full object-cover object-top"
+            className="w-full h-full object-cover object-[center_20%]"
           />
         </div>
         <div className="flex-1 bg-white px-8 sm:px-12 lg:px-14 py-12 lg:py-16 flex flex-col justify-center">
@@ -428,14 +428,14 @@ export default function Home() {
       </section>
 
       {/* ── Agendamento ── */}
-      <section id="agendamento" className="py-20 px-6 bg-cream">
+      <section id="agendamento" className="py-20 px-6 bg-stone-900">
         <div className="max-w-md mx-auto">
           <div className="text-center mb-10">
             <p className="font-playfair italic text-gold text-sm tracking-wide mb-2">Marque seu horário</p>
-            <h2 className="font-bebas text-stone-900 text-5xl tracking-wide">Agendamento</h2>
+            <h2 className="font-bebas text-white text-5xl tracking-wide">Agendamento</h2>
             <div className="w-10 h-0.5 bg-gold mx-auto mt-4" />
           </div>
-          <div className="bg-white rounded-2xl border border-stone-200 p-8 shadow-sm">
+          <div className="bg-white rounded-2xl p-8 shadow-2xl">
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <input
                 className="w-full px-4 py-3 rounded-lg border border-stone-300 text-stone-900 placeholder-stone-400 focus:outline-none focus:border-gold transition-colors text-sm"
@@ -494,23 +494,31 @@ export default function Home() {
 
       {/* ── Horários ── */}
       <section id="horarios" className="py-20 px-6 bg-white">
-        <div className="max-w-xs mx-auto">
-          <div className="text-center mb-10">
-            <p className="font-playfair italic text-gold text-sm tracking-wide mb-2">Quando estamos abertos</p>
-            <h2 className="font-bebas text-stone-900 text-5xl tracking-wide">Horários</h2>
-            <div className="w-10 h-0.5 bg-gold mx-auto mt-4" />
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="overflow-hidden rounded-2xl h-72 lg:h-[400px] relative">
+            <img
+              src="/img/barber-chair.jpg"
+              alt="Cadeira de barbeiro"
+              className="w-full h-full object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-stone-900/20 rounded-2xl" />
           </div>
-          <div className="divide-y divide-stone-200">
-            {horarios.map(h => (
-              <div key={h.dia} className="flex justify-between items-center py-3.5">
-                <span className={`text-sm font-medium ${h.aberto ? 'text-stone-800' : 'text-stone-400'}`}>
-                  {h.dia}
-                </span>
-                <span className={`text-sm font-playfair ${h.aberto ? 'text-gold font-semibold' : 'text-stone-400 line-through'}`}>
-                  {h.hora}
-                </span>
-              </div>
-            ))}
+          <div>
+            <p className="font-playfair italic text-gold text-sm tracking-wide mb-2">Quando estamos abertos</p>
+            <h2 className="font-bebas text-stone-900 text-5xl tracking-wide mb-1">Horários</h2>
+            <div className="w-10 h-0.5 bg-gold mb-8" />
+            <div className="divide-y divide-stone-200">
+              {horarios.map(h => (
+                <div key={h.dia} className="flex justify-between items-center py-3.5">
+                  <span className={`text-sm font-medium ${h.aberto ? 'text-stone-800' : 'text-stone-400'}`}>
+                    {h.dia}
+                  </span>
+                  <span className={`text-sm font-playfair ${h.aberto ? 'text-gold font-semibold' : 'text-stone-400 line-through'}`}>
+                    {h.hora}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
