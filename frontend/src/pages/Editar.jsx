@@ -49,10 +49,10 @@ export default function Editar() {
   }
 
   return (
-    <div className="min-h-screen bg-dark-950 text-white font-roboto">
+    <div className="min-h-screen bg-stone-50 text-stone-900 font-roboto">
 
       {/* Topbar */}
-      <header className="bg-dark-900 border-b border-dark-700 h-14 flex items-center justify-between px-5 sticky top-0 z-30">
+      <header className="bg-white border-b border-stone-200 h-14 flex items-center justify-between px-5 sticky top-0 z-30">
         <div className="flex items-center gap-3">
           <button
             onClick={() => setSidebarAberta(v => !v)}
@@ -63,13 +63,15 @@ export default function Editar() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
-          <img src="/img/logo2.png" alt="Logo" className="h-8" />
+          <div className="bg-stone-900 rounded-lg px-2 py-1">
+            <img src="/img/logo2.png" alt="Logo" className="h-8" />
+          </div>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-gray-600 text-xs hidden sm:block tracking-wider">EDITAR AGENDAMENTO</span>
+          <span className="text-stone-400 text-xs hidden sm:block tracking-wider">EDITAR AGENDAMENTO</span>
           <button
             onClick={logout}
-            className="border border-dark-600 text-gray-500 hover:border-gold/50 hover:text-gold text-xs px-3 py-1.5 rounded transition-all cursor-pointer"
+            className="border border-stone-300 text-stone-500 hover:border-gold/50 hover:text-gold text-xs px-3 py-1.5 rounded transition-all cursor-pointer"
           >
             Sair
           </button>
@@ -81,23 +83,23 @@ export default function Editar() {
         {/* Backdrop mobile */}
         {sidebarAberta && (
           <div
-            className="fixed inset-0 bg-black/60 z-20 lg:hidden"
+            className="fixed inset-0 bg-black/40 z-20 lg:hidden"
             onClick={() => setSidebarAberta(false)}
           />
         )}
 
         {/* Sidebar */}
         <aside className={`
-          fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-56 bg-dark-900 border-r border-dark-700 z-20
+          fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-56 bg-white border-r border-stone-200 z-20
           flex flex-col py-8 px-4 gap-1
           transition-transform duration-300
           ${sidebarAberta ? 'translate-x-0' : '-translate-x-full'}
           lg:translate-x-0 lg:static lg:h-auto lg:z-auto
         `}>
-          <p className="text-gray-700 text-xs uppercase tracking-[0.2em] px-3 mb-3">Navegação</p>
+          <p className="text-stone-400 text-xs uppercase tracking-[0.2em] px-3 mb-3">Navegação</p>
           <a
             href="/"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:text-gold hover:bg-dark-800 transition-all text-sm"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-stone-500 hover:text-gold hover:bg-stone-100 transition-all text-sm"
           >
             <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -106,7 +108,7 @@ export default function Editar() {
           </a>
           <a
             href="/admin/painel"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:text-gold hover:bg-dark-800 transition-all text-sm"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-stone-500 hover:text-gold hover:bg-stone-100 transition-all text-sm"
           >
             <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -116,68 +118,68 @@ export default function Editar() {
         </aside>
 
         {/* Main */}
-        <main className="flex-1 p-6 lg:p-10 dark-form">
+        <main className="flex-1 p-6 lg:p-10">
           <div className="mb-8 flex items-center gap-4">
             <button
               onClick={() => navigate('/admin/painel')}
-              className="text-gray-600 hover:text-gold transition-colors cursor-pointer"
+              className="text-stone-400 hover:text-gold transition-colors cursor-pointer"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <div>
-              <h1 className="font-bebas text-4xl text-white tracking-wide">Editar Agendamento</h1>
-              <p className="text-gray-600 text-xs mt-1">Atualize os dados abaixo</p>
+              <h1 className="font-bebas text-4xl text-stone-900 tracking-wide">Editar Agendamento</h1>
+              <p className="text-stone-500 text-xs mt-1">Atualize os dados abaixo</p>
             </div>
           </div>
 
           {erro && (
-            <div className="bg-red-900/30 border border-red-800/50 text-red-400 text-sm rounded-lg px-4 py-3 mb-6 max-w-md">
+            <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg px-4 py-3 mb-6 max-w-md">
               {erro}
             </div>
           )}
 
-          <div className="bg-dark-900 rounded-xl border border-dark-700 p-6 max-w-md">
+          <div className="bg-white rounded-xl border border-stone-200 p-6 max-w-md">
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
               <div>
-                <label className="block text-gray-600 text-xs uppercase tracking-[0.2em] mb-2">Nome Completo</label>
+                <label className="block text-stone-500 text-xs uppercase tracking-[0.2em] mb-2">Nome Completo</label>
                 <input
-                  className="w-full px-4 py-3 rounded-lg bg-dark-800 border border-dark-600 text-white focus:outline-none focus:border-gold transition-colors text-sm"
+                  className="w-full px-4 py-3 rounded-lg bg-white border border-stone-300 text-stone-900 focus:outline-none focus:border-gold transition-colors text-sm"
                   type="text" name="nome" required
                   value={form.nome} onChange={e => setForm({ ...form, nome: e.target.value })}
                 />
               </div>
               <div>
-                <label className="block text-gray-600 text-xs uppercase tracking-[0.2em] mb-2">Telefone</label>
+                <label className="block text-stone-500 text-xs uppercase tracking-[0.2em] mb-2">Telefone</label>
                 <input
-                  className="w-full px-4 py-3 rounded-lg bg-dark-800 border border-dark-600 text-white focus:outline-none focus:border-gold transition-colors text-sm"
+                  className="w-full px-4 py-3 rounded-lg bg-white border border-stone-300 text-stone-900 focus:outline-none focus:border-gold transition-colors text-sm"
                   type="text" name="telefone" required
                   value={form.telefone} onChange={e => setForm({ ...form, telefone: e.target.value })}
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-600 text-xs uppercase tracking-[0.2em] mb-2">Data</label>
+                  <label className="block text-stone-500 text-xs uppercase tracking-[0.2em] mb-2">Data</label>
                   <input
-                    className="w-full px-4 py-3 rounded-lg bg-dark-800 border border-dark-600 text-white focus:outline-none focus:border-gold transition-colors text-sm"
+                    className="w-full px-4 py-3 rounded-lg bg-white border border-stone-300 text-stone-900 focus:outline-none focus:border-gold transition-colors text-sm"
                     type="date" name="data" required
                     value={form.data} onChange={e => setForm({ ...form, data: e.target.value })}
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-600 text-xs uppercase tracking-[0.2em] mb-2">Hora</label>
+                  <label className="block text-stone-500 text-xs uppercase tracking-[0.2em] mb-2">Hora</label>
                   <input
-                    className="w-full px-4 py-3 rounded-lg bg-dark-800 border border-dark-600 text-white focus:outline-none focus:border-gold transition-colors text-sm"
+                    className="w-full px-4 py-3 rounded-lg bg-white border border-stone-300 text-stone-900 focus:outline-none focus:border-gold transition-colors text-sm"
                     type="time" name="hora" required
                     value={form.hora} onChange={e => setForm({ ...form, hora: e.target.value })}
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-gray-600 text-xs uppercase tracking-[0.2em] mb-2">Serviço</label>
+                <label className="block text-stone-500 text-xs uppercase tracking-[0.2em] mb-2">Serviço</label>
                 <select
-                  className="w-full px-4 py-3 rounded-lg bg-dark-800 border border-dark-600 text-white focus:outline-none focus:border-gold transition-colors text-sm"
+                  className="w-full px-4 py-3 rounded-lg bg-white border border-stone-300 text-stone-900 focus:outline-none focus:border-gold transition-colors text-sm"
                   name="servico" required
                   value={form.servico} onChange={e => setForm({ ...form, servico: e.target.value })}
                 >
@@ -188,9 +190,9 @@ export default function Editar() {
                 </select>
               </div>
               <div>
-                <label className="block text-gray-600 text-xs uppercase tracking-[0.2em] mb-2">Barbeiro</label>
+                <label className="block text-stone-500 text-xs uppercase tracking-[0.2em] mb-2">Barbeiro</label>
                 <select
-                  className="w-full px-4 py-3 rounded-lg bg-dark-800 border border-dark-600 text-white focus:outline-none focus:border-gold transition-colors text-sm"
+                  className="w-full px-4 py-3 rounded-lg bg-white border border-stone-300 text-stone-900 focus:outline-none focus:border-gold transition-colors text-sm"
                   name="barbeiro" required
                   value={form.barbeiro} onChange={e => setForm({ ...form, barbeiro: e.target.value })}
                 >
@@ -201,9 +203,9 @@ export default function Editar() {
                 </select>
               </div>
               <div>
-                <label className="block text-gray-600 text-xs uppercase tracking-[0.2em] mb-2">Status</label>
+                <label className="block text-stone-500 text-xs uppercase tracking-[0.2em] mb-2">Status</label>
                 <select
-                  className="w-full px-4 py-3 rounded-lg bg-dark-800 border border-dark-600 text-white focus:outline-none focus:border-gold transition-colors text-sm"
+                  className="w-full px-4 py-3 rounded-lg bg-white border border-stone-300 text-stone-900 focus:outline-none focus:border-gold transition-colors text-sm"
                   name="status"
                   value={form.status} onChange={e => setForm({ ...form, status: e.target.value })}
                 >
@@ -224,7 +226,7 @@ export default function Editar() {
                 <button
                   type="button"
                   onClick={() => navigate('/admin/painel')}
-                  className="flex-1 border border-dark-600 text-gray-500 hover:border-white/20 hover:text-white py-3 rounded-lg cursor-pointer transition-all text-sm"
+                  className="flex-1 border border-stone-300 text-stone-500 hover:border-stone-400 hover:text-stone-700 py-3 rounded-lg cursor-pointer transition-all text-sm"
                 >
                   Cancelar
                 </button>
