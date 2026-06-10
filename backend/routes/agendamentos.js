@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
 
     const novo = new Agendamento({ nome, telefone, data, hora, servico });
     await novo.save();
-    res.status(201).json({ sucesso: true });
+    res.status(201).json({ sucesso: true, id: novo._id });
   } catch {
     res.status(500).json({ erro: 'Erro ao salvar agendamento' });
   }
@@ -59,7 +59,9 @@ router.put('/:id', autenticar, async (req, res) => {
       return res.status(409).json({ erro: 'Horário indisponível. Já existe um agendamento nesse dia e horário.' });
     }
 
-    await Agendamento.findByIdAndUpdate(req.params.id, { nome, telefone, data, hora, servico });
+    const atualizado = await Agendamento.findByIdAndUpdate(req.params.id, { nome, telefone, data, hora, servico });
+    if (!atualizado) return res.status(404).json({ erro: 'Agendamento não encontrado' });
+
     res.json({ sucesso: true });
   } catch {
     res.status(500).json({ erro: 'Erro ao atualizar agendamento' });
@@ -68,7 +70,9 @@ router.put('/:id', autenticar, async (req, res) => {
 
 router.delete('/:id', autenticar, async (req, res) => {
   try {
-    await Agendamento.findByIdAndDelete(req.params.id);
+    const removido = await Agendamento.findByIdAndDelete(req.params.id);
+    if (!removido) return res.status(404).json({ erro: 'Agendamento não encontrado' });
+
     res.json({ sucesso: true });
   } catch {
     res.status(500).json({ erro: 'Erro ao remover agendamento' });
