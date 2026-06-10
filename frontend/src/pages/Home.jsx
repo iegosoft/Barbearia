@@ -31,24 +31,29 @@ function scrollTo(id) {
 export default function Home() {
   const [form, setForm] = useState({ nome: '', telefone: '', data: '', hora: '', servico: '' })
   const [status, setStatus] = useState(null)
+  const [erroMsg, setErroMsg] = useState('')
 
   async function handleSubmit(e) {
     e.preventDefault()
     setStatus(null)
+    setErroMsg('')
     try {
       const res = await fetch('/api/agendamentos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
+      const data = await res.json()
       if (res.ok) {
         setStatus('sucesso')
         setForm({ nome: '', telefone: '', data: '', hora: '', servico: '' })
       } else {
         setStatus('erro')
+        setErroMsg(data.erro || 'Erro ao realizar agendamento.')
       }
     } catch {
       setStatus('erro')
+      setErroMsg('Erro de conexão com o servidor.')
     }
   }
 
@@ -147,7 +152,7 @@ export default function Home() {
               <p className="text-green-400 font-bold">✅ Agendamento realizado com sucesso!</p>
             )}
             {status === 'erro' && (
-              <p className="text-red-400 font-bold">❌ Erro ao realizar agendamento.</p>
+              <p className="text-red-400 font-bold">❌ {erroMsg}</p>
             )}
 
             <button

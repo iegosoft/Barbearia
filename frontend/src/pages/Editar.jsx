@@ -29,10 +29,11 @@ export default function Editar() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
+      const data = await res.json()
       if (res.ok) {
         navigate('/admin/painel')
       } else {
-        setErro('Erro ao atualizar agendamento')
+        setErro(data.erro || 'Erro ao atualizar agendamento')
       }
     } catch {
       setErro('Erro de conexão com o servidor')
