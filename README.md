@@ -1,4 +1,4 @@
-# BarberShop
+# BarberShop (EM DESENVOLVIMENTO)
 
 Sistema web completo para gerenciamento de agendamentos em barbearias. Desenvolvido como projeto final da disciplina de **Gestão da Qualidade de Software** no curso de Engenharia de Software da UFAM – ICET.
 
