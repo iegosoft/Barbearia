@@ -1,17 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { CalendarDays, Clock, CheckCircle, AlertCircle } from 'lucide-react'
 
 const BARBEIROS = ['Iego Costa', 'Choze', 'Margarida', 'Karina', 'Elizabeth']
 
+// FIX: registros antigos podem não ter campo status — tratar como 'pendente'
+const statusFinal = (a) => a.status || 'pendente'
+
 const STATUS_CONFIG = {
-  pendente:  { label: 'Pendente',  bg: 'bg-amber-500/15 border-amber-500/30 text-amber-400'    },
-  concluido: { label: 'Concluído', bg: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400' },
-  remarcado: { label: 'Remarcado', bg: 'bg-blue-500/15 border-blue-500/30 text-blue-400'       },
-  cancelado: { label: 'Cancelado', bg: 'bg-red-500/15 border-red-500/30 text-red-400'          },
+  pendente:  { label: 'Pendente',  bg: 'bg-amber-500/15 border-amber-500/30 text-amber-400'       },
+  concluido: { label: 'Concluído', bg: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400'  },
+  remarcado: { label: 'Remarcado', bg: 'bg-blue-500/15 border-blue-500/30 text-blue-400'           },
+  cancelado: { label: 'Cancelado', bg: 'bg-red-500/15 border-red-500/30 text-red-400'              },
 }
 
 function Badge({ status }) {
-  const c = STATUS_CONFIG[status] || STATUS_CONFIG.pendente
+  const c = STATUS_CONFIG[statusFinal({ status })] || STATUS_CONFIG.pendente
   return (
     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full border text-xs font-medium ${c.bg}`}>
       {c.label}
@@ -19,46 +23,71 @@ function Badge({ status }) {
   )
 }
 
-function hojeLocal() {
-  const d = new Date()
-  const y = d.getFullYear()
-  const m = String(d.getMonth() + 1).padStart(2, '0')
-  const day = String(d.getDate()).padStart(2, '0')
-  return `${y}-${m}-${day}`
+// FIX: data de hoje em formato ISO (YYYY-MM-DD) para comparar com datas salvas no banco
+function dataHoje() {
+  return new Date().toISOString().split('T')[0]
+}
+
+// FIX: Card redesenhado com borda colorida, ícone, número grande e texto secundário
+function StatCard({ label, valor, descricao, cor, Icone, atualizado }) {
+  return (
+    <div
+      className="bg-dark-900 border border-dark-700 rounded-xl overflow-hidden relative"
+      style={{ borderTop: `2px solid ${cor}` }}
+    >
+      <div className="px-5 py-4">
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-gray-500 text-xs uppercase tracking-[0.15em]">{label}</p>
+          <Icone size={16} style={{ color: cor }} />
+        </div>
+        <p className="font-bebas text-4xl tracking-wide mb-1" style={{ color: cor }}>
+          {valor}
+        </p>
+        <p className="text-gray-600 text-xs">{descricao}</p>
+      </div>
+      {/* FIX: indicador visual de atualização em tempo real */}
+      {atualizado && (
+        <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+      )}
+    </div>
+  )
 }
 
 export default function Admin() {
-  const [agendamentos, setAgendamentos]   = useState([])
-  const [stats, setStats]                 = useState({ hoje: 0, pendentes: 0, concluidosHoje: 0, pendentesHoje: 0 })
-  const [filtros, setFiltros]             = useState({ data: '', barbeiro: '', status: '' })
-  const [filtrosAtivos, setFiltrosAtivos] = useState({ data: '', barbeiro: '', status: '' })
-  const [sidebarAberta, setSidebarAberta] = useState(false)
-  const [carregando, setCarregando]       = useState(true)
-  const [atualizandoId, setAtualizandoId] = useState(null)
-  const [erroStatus, setErroStatus]       = useState('')
+  // FIX: dois estados separados — todos os registros (para stats) e filtrados (para tabela)
+  const [todosAgendamentos, setTodosAgendamentos] = useState([])
+  const [agendamentos, setAgendamentos]           = useState([])
+  const [filtros, setFiltros]                     = useState({ data: '', barbeiro: '', status: '' })
+  const [filtrosAtivos, setFiltrosAtivos]         = useState({ data: '', barbeiro: '', status: '' })
+  const [sidebarAberta, setSidebarAberta]         = useState(false)
+  const [carregando, setCarregando]               = useState(true)
+  const [atualizandoId, setAtualizandoId]         = useState(null)
+  const [erroStatus, setErroStatus]               = useState('')
+  const [statsAtualizadas, setStatsAtualizadas]   = useState(false)
   const navigate = useNavigate()
 
-  async function carregarTudo(filtrosAplicados = filtrosAtivos) {
+  // FIX: busca TODOS os agendamentos sem filtros para alimentar os cards
+  async function carregarTodos() {
+    try {
+      const res = await fetch('/api/agendamentos', { credentials: 'include' })
+      const data = await res.json()
+      setTodosAgendamentos(Array.isArray(data) ? data : [])
+    } catch {
+      setTodosAgendamentos([])
+    }
+  }
+
+  // Busca lista filtrada para a tabela
+  async function carregarFiltrados(f) {
     setCarregando(true)
-    setErroStatus('')
     try {
       const params = new URLSearchParams()
-      if (filtrosAplicados.data)     params.set('data',     filtrosAplicados.data)
-      if (filtrosAplicados.barbeiro) params.set('barbeiro', filtrosAplicados.barbeiro)
-      if (filtrosAplicados.status)   params.set('status',   filtrosAplicados.status)
-
-      const [resLista, resStats] = await Promise.all([
-        fetch(`/api/agendamentos?${params}`, { credentials: 'include' }),
-        fetch(`/api/agendamentos/stats`, { credentials: 'include' }),
-      ])
-
-      const lista = await resLista.json()
-      setAgendamentos(Array.isArray(lista) ? lista : [])
-
-      if (resStats.ok) {
-        const s = await resStats.json()
-        setStats(s)
-      }
+      if (f.data)     params.set('data',     f.data)
+      if (f.barbeiro) params.set('barbeiro', f.barbeiro)
+      if (f.status)   params.set('status',   f.status)
+      const res = await fetch(`/api/agendamentos?${params}`, { credentials: 'include' })
+      const data = await res.json()
+      setAgendamentos(Array.isArray(data) ? data : [])
     } catch {
       setAgendamentos([])
     } finally {
@@ -66,8 +95,25 @@ export default function Admin() {
     }
   }
 
-  useEffect(() => { carregarTudo() }, [])
+  useEffect(() => {
+    carregarTodos()
+    carregarFiltrados(filtrosAtivos)
+  }, [])
 
+  // FIX: stats calculadas localmente de TODOS os registros via useMemo
+  // Usa statusFinal() para tratar registros antigos sem campo status
+  const stats = useMemo(() => {
+    const hoje = dataHoje()
+    return {
+      hoje:          todosAgendamentos.filter(a => a.data === hoje).length,
+      pendentes:     todosAgendamentos.filter(a => statusFinal(a) === 'pendente').length,
+      concluidosHoje: todosAgendamentos.filter(a => a.data === hoje && statusFinal(a) === 'concluido').length,
+      pendentesHoje:  todosAgendamentos.filter(a => a.data === hoje && statusFinal(a) === 'pendente').length,
+    }
+  }, [todosAgendamentos])
+
+  // FIX: após mudança de status, atualiza ambos os estados localmente
+  // (sem refetch) para que os cards reflitam o banco imediatamente
   async function atualizarStatus(id, novoStatus) {
     setAtualizandoId(id)
     setErroStatus('')
@@ -83,9 +129,12 @@ export default function Admin() {
         setErroStatus(data.erro || 'Erro ao atualizar status')
         return
       }
+      // FIX: atualiza os dois estados para que stats e tabela fiquem sincronizados
+      setTodosAgendamentos(prev => prev.map(a => a._id === id ? { ...a, status: novoStatus } : a))
       setAgendamentos(prev => prev.map(a => a._id === id ? { ...a, status: novoStatus } : a))
-      const resStats = await fetch('/api/agendamentos/stats', { credentials: 'include' })
-      if (resStats.ok) setStats(await resStats.json())
+      // FIX: pulso visual nos cards para indicar atualização
+      setStatsAtualizadas(true)
+      setTimeout(() => setStatsAtualizadas(false), 2000)
     } catch {
       setErroStatus('Erro de conexão ao atualizar status')
     } finally {
@@ -97,9 +146,11 @@ export default function Admin() {
     if (!window.confirm('Remover este agendamento?')) return
     const res = await fetch(`/api/agendamentos/${id}`, { method: 'DELETE', credentials: 'include' })
     if (res.ok) {
+      // FIX: remove dos dois estados para manter stats corretas
+      setTodosAgendamentos(prev => prev.filter(a => a._id !== id))
       setAgendamentos(prev => prev.filter(a => a._id !== id))
-      const resStats = await fetch('/api/agendamentos/stats', { credentials: 'include' })
-      if (resStats.ok) setStats(await resStats.json())
+      setStatsAtualizadas(true)
+      setTimeout(() => setStatsAtualizadas(false), 2000)
     }
   }
 
@@ -110,17 +161,49 @@ export default function Admin() {
 
   function aplicarFiltros() {
     setFiltrosAtivos({ ...filtros })
-    carregarTudo(filtros)
+    carregarFiltrados(filtros)
   }
 
   function limparFiltros() {
     const limpo = { data: '', barbeiro: '', status: '' }
     setFiltros(limpo)
     setFiltrosAtivos(limpo)
-    carregarTudo(limpo)
+    carregarFiltrados(limpo)
   }
 
   const temFiltro = filtrosAtivos.data || filtrosAtivos.barbeiro || filtrosAtivos.status
+
+  // FIX: configuração dos cards com ícones, cores e textos descritivos
+  const CARDS = [
+    {
+      label: 'Hoje',
+      valor: stats.hoje,
+      descricao: 'agendamentos para hoje',
+      cor: '#B8943A',
+      Icone: CalendarDays,
+    },
+    {
+      label: 'Pendentes Total',
+      valor: stats.pendentes,
+      descricao: 'aguardando atendimento',
+      cor: '#3b82f6',
+      Icone: Clock,
+    },
+    {
+      label: 'Concluídos Hoje',
+      valor: stats.concluidosHoje,
+      descricao: 'finalizados no dia',
+      cor: '#10b981',
+      Icone: CheckCircle,
+    },
+    {
+      label: 'Pendentes Hoje',
+      valor: stats.pendentesHoje,
+      descricao: 'ainda não atendidos hoje',
+      cor: '#f59e0b',
+      Icone: AlertCircle,
+    },
+  ]
 
   return (
     <div className="min-h-screen bg-dark-950 text-white font-roboto">
@@ -187,18 +270,10 @@ export default function Admin() {
             <p className="text-gray-600 text-xs mt-0.5">Gerencie os agendamentos da barbearia</p>
           </div>
 
-          {/* Cards de stats — sempre do banco completo, independente dos filtros */}
+          {/* FIX: Cards de stats com design aprimorado — fonte dos dados é todosAgendamentos */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            {[
-              { label: 'Hoje',               valor: stats.hoje,          cor: 'text-white'         },
-              { label: 'Pendentes total',     valor: stats.pendentes,     cor: 'text-amber-400'     },
-              { label: 'Concluídos hoje',     valor: stats.concluidosHoje, cor: 'text-emerald-400'  },
-              { label: 'Pendentes hoje',      valor: stats.pendentesHoje, cor: 'text-blue-400'      },
-            ].map(s => (
-              <div key={s.label} className="bg-dark-900 border border-dark-700 rounded-xl px-5 py-4">
-                <p className="text-gray-600 text-xs uppercase tracking-[0.15em] mb-1">{s.label}</p>
-                <p className={`font-bebas text-3xl tracking-wide ${s.cor}`}>{s.valor}</p>
-              </div>
+            {CARDS.map(c => (
+              <StatCard key={c.label} {...c} atualizado={statsAtualizadas} />
             ))}
           </div>
 
@@ -208,7 +283,7 @@ export default function Admin() {
             </div>
           )}
 
-          {/* Filtros — só aplica ao clicar em Filtrar */}
+          {/* Filtros — só disparam busca ao clicar "Filtrar" */}
           <div className="bg-dark-900 border border-dark-700 rounded-xl p-4 mb-6">
             <p className="text-gray-600 text-xs uppercase tracking-[0.15em] mb-3">Filtrar por</p>
             <div className="flex flex-wrap gap-3 items-end">
@@ -296,7 +371,7 @@ export default function Admin() {
                   </thead>
                   <tbody className="divide-y divide-dark-700">
                     {agendamentos.map(a => (
-                      <tr key={a._id} className="hover:bg-dark-800 transition-colors">
+                      <tr key={a._id} className="bg-dark-950 hover:bg-dark-800 transition-colors">
                         <td className="py-3.5 px-4 text-white font-medium">{a.nome}</td>
                         <td className="py-3.5 px-4 text-gray-500 text-xs">{a.telefone}</td>
                         <td className="py-3.5 px-4 text-gray-400 text-xs">{a.data}</td>
@@ -306,11 +381,11 @@ export default function Admin() {
                         </td>
                         <td className="py-3.5 px-4 text-gray-400 text-xs">{a.barbeiro || '—'}</td>
                         <td className="py-3.5 px-4">
-                          <Badge status={a.status || 'pendente'} />
+                          <Badge status={a.status} />
                         </td>
                         <td className="py-3.5 px-4">
                           <div className="flex items-center gap-1 flex-wrap">
-                            {a.status !== 'concluido' && (
+                            {statusFinal(a) !== 'concluido' && (
                               <button
                                 onClick={() => atualizarStatus(a._id, 'concluido')}
                                 disabled={atualizandoId === a._id}
@@ -322,7 +397,7 @@ export default function Admin() {
                                 </svg>
                               </button>
                             )}
-                            {a.status !== 'remarcado' && (
+                            {statusFinal(a) !== 'remarcado' && (
                               <button
                                 onClick={() => atualizarStatus(a._id, 'remarcado')}
                                 disabled={atualizandoId === a._id}
@@ -334,7 +409,7 @@ export default function Admin() {
                                 </svg>
                               </button>
                             )}
-                            {a.status !== 'cancelado' && (
+                            {statusFinal(a) !== 'cancelado' && (
                               <button
                                 onClick={() => atualizarStatus(a._id, 'cancelado')}
                                 disabled={atualizandoId === a._id}
@@ -381,7 +456,7 @@ export default function Admin() {
                         <p className="font-medium text-white text-sm">{a.nome}</p>
                         <p className="text-gray-600 text-xs mt-0.5">{a.telefone}</p>
                       </div>
-                      <Badge status={a.status || 'pendente'} />
+                      <Badge status={a.status} />
                     </div>
                     <div className="flex gap-2 flex-wrap mb-3">
                       <span className="text-gray-500 text-xs">{a.data} às {a.hora}</span>
@@ -389,13 +464,13 @@ export default function Admin() {
                       {a.barbeiro && <span className="text-gray-500 text-xs">{a.barbeiro}</span>}
                     </div>
                     <div className="flex gap-2 flex-wrap">
-                      {a.status !== 'concluido' && (
+                      {statusFinal(a) !== 'concluido' && (
                         <button onClick={() => atualizarStatus(a._id, 'concluido')} disabled={atualizandoId === a._id} className="flex-1 text-xs border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 py-2 rounded transition-all cursor-pointer disabled:opacity-40">✓ Concluído</button>
                       )}
-                      {a.status !== 'remarcado' && (
+                      {statusFinal(a) !== 'remarcado' && (
                         <button onClick={() => atualizarStatus(a._id, 'remarcado')} disabled={atualizandoId === a._id} className="flex-1 text-xs border border-blue-400/30 text-blue-400 hover:bg-blue-500/10 py-2 rounded transition-all cursor-pointer disabled:opacity-40">↩ Remarcar</button>
                       )}
-                      {a.status !== 'cancelado' && (
+                      {statusFinal(a) !== 'cancelado' && (
                         <button onClick={() => atualizarStatus(a._id, 'cancelado')} disabled={atualizandoId === a._id} className="flex-1 text-xs border border-red-500/30 text-red-400 hover:bg-red-500/10 py-2 rounded transition-all cursor-pointer disabled:opacity-40">✗ Cancelar</button>
                       )}
                       <button onClick={() => navigate(`/admin/editar/${a._id}`)} className="flex-1 text-xs border border-dark-600 text-gray-500 hover:border-gold/50 hover:text-gold py-2 rounded transition-all cursor-pointer">Editar</button>

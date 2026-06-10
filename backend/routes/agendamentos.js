@@ -22,11 +22,13 @@ router.get('/stats', autenticar, async (req, res) => {
     const hoje = new Date();
     const dataHoje = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${String(hoje.getDate()).padStart(2, '0')}`;
 
+    // FIX: $or para incluir registros antigos sem campo status (tratados como 'pendente')
+    const filtroPendente = { $or: [{ status: 'pendente' }, { status: { $exists: false } }] }
     const [totalHoje, pendentes, concluidosHoje, pendentesHoje] = await Promise.all([
       Agendamento.countDocuments({ data: dataHoje }),
-      Agendamento.countDocuments({ status: 'pendente' }),
+      Agendamento.countDocuments(filtroPendente),
       Agendamento.countDocuments({ data: dataHoje, status: 'concluido' }),
-      Agendamento.countDocuments({ data: dataHoje, status: 'pendente' }),
+      Agendamento.countDocuments({ data: dataHoje, ...filtroPendente }),
     ]);
 
     res.json({ hoje: totalHoje, pendentes, concluidosHoje, pendentesHoje });
