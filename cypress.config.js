@@ -3,7 +3,7 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: "http://localhost:3000", // ajuste se usar outra porta
+    baseUrl: "http://localhost:5173", // Vite dev server (frontend)
     video: true,                       // grava vídeos (evidência extra)
     screenshotOnRunFailure: true,      // screenshot automático em falha
     screenshotsFolder: "cypress/screenshots",

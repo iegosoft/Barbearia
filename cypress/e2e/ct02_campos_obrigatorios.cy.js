@@ -1,4 +1,5 @@
 describe("CT02 - Validação de campos obrigatórios no agendamento", () => {
+  // todos os casos de testes serão executados de forma automática via cypress, e as evidencias etsrão nas pastas /screenshots e /videos não serão configurados logs para evidencias 
   it("CT02.01 - Nome obrigatório (nome vazio)", () => {
     cy.visit("/");
     cy.get('input[name="telefone"]').type("99999999999");

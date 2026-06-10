@@ -70,3 +70,6 @@ describe("CT09 - Impedir agendamento em horário já ocupado", () => {
     });
   });
 });
+
+
+//o teste apresentou falhas críticas que precisam passar por revisão urgente.

@@ -46,3 +46,5 @@ describe("CT08 - Logout do administrador", () => {
     cy.url().should("include", "/admin/login");
   });
 });
+
+//foi necessário modificar algumas rotas para que fosse necessario aplicar os testes de forma eficiente.

@@ -31,3 +31,4 @@ describe("CT07 - Login com senha incorreta", () => {
     }
   });
 });
+//nesse caso de teste também foi necessário modificar alguns objetos que fosse necessário aplicar os testes de forma eficiente.

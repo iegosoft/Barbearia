@@ -6,10 +6,7 @@ const AgendamentoSchema = new mongoose.Schema({
   data: String,
   hora: String,
   servico: String,
-  criadoEm: {
-    type: Date,
-    default: Date.now
-  }
+  criadoEm: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('Agendamento', AgendamentoSchema);

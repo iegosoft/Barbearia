@@ -2,15 +2,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const UsuarioSchema = new mongoose.Schema({
-  usuario: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  senha: {
-    type: String,
-    required: true
-  }
+  usuario: { type: String, required: true, unique: true },
+  senha: { type: String, required: true }
 });
 
 UsuarioSchema.pre('save', async function (next) {

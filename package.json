@@ -1,27 +1,13 @@
 {
   "name": "barbearia",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "dev": "nodemon app.js",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "start:backend": "cd backend && npm start",
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "bcrypt": "^6.0.0",
-    "connect-mongo": "^5.1.0",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "express-handlebars": "^8.0.3",
-    "express-session": "^1.18.1",
-    "mongodb": "^6.17.0",
-    "mongoose": "^8.15.1"
   },
   "devDependencies": {
     "cypress": "^14.4.1"

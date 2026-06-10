@@ -32,3 +32,5 @@ describe("CT06 - Login com credenciais válidas", () => {
     cy.url().should("include", "/admin/painel");
   });
 });
+//não foram encotrados bugs ou erros crítivos, porém foi necessário modificar alguns comandos para qque tudo rodadde de maneira corrta. O próprio cypress indicou melhorias.
+//foram excluidos alguns sub-casos de testes que funcionasse de acordo com o documento.
