@@ -378,23 +378,24 @@ export default function Home() {
             <h2 className="font-bebas text-stone-900 text-5xl tracking-wide">Galeria de Cortes</h2>
             <div className="w-10 h-0.5 bg-gold mx-auto mt-4" />
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+          <div
+            className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4"
+            style={{ gridAutoRows: '208px' }}
+          >
             {galeria.map((g, i) => (
               <div
                 key={g.titulo}
                 className={`relative overflow-hidden rounded-2xl group ${i === 0 || i === 3 ? 'row-span-2' : ''}`}
               >
-                <div className={`relative overflow-hidden ${i === 0 || i === 3 ? 'h-full min-h-[300px] sm:min-h-[400px]' : 'h-44 sm:h-52'}`}>
-                  <img
-                    src={g.img}
-                    alt={g.titulo}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/55 transition-all duration-300 flex items-end p-4 rounded-2xl">
-                    <p className="text-white font-bebas text-base tracking-wide translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                      {g.titulo}
-                    </p>
-                  </div>
+                <img
+                  src={g.img}
+                  alt={g.titulo}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/55 transition-all duration-300 flex items-end p-4 rounded-2xl">
+                  <p className="text-white font-bebas text-base tracking-wide translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                    {g.titulo}
+                  </p>
                 </div>
               </div>
             ))}
