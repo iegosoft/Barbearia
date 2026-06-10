@@ -4,6 +4,10 @@ const Usuario = require('../models/Usuario');
 
 router.post('/login', async (req, res) => {
   const { usuario, senha } = req.body;
+
+  if (!usuario || !usuario.trim()) return res.status(400).json({ erro: 'Usuário é obrigatório' });
+  if (!senha || !senha.trim()) return res.status(400).json({ erro: 'Senha é obrigatória' });
+
   const admin = await Usuario.findOne({ usuario });
   if (!admin) return res.status(401).json({ erro: 'Usuário não encontrado' });
 
