@@ -4,9 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        gold: '#C9A84C',
-        'gold-light': '#E8C96A',
-        'gold-hover': '#B8923E',
+        gold: '#B8943A',
+        'gold-light': '#D4AA55',
+        'gold-hover': '#9E7C2E',
+        cream: '#F5EFE6',
         'dark-950': '#0a0a0a',
         'dark-900': '#111111',
         'dark-800': '#1a1a1a',
