@@ -2,6 +2,8 @@
 
 Sistema Web para gerenciamento de agendamentos em barbearias, com foco em usabilidade, segurança e escalabilidade. Desenvolvido como projeto final da disciplina de **Gestão da Qualidade de Software**, no curso de Engenharia de Software da UFAM – ICET.
 
+---
+
 ## 📌 Objetivo
 
 O BarberShop tem como principal propósito **otimizar a rotina de barbearias**, permitindo:
@@ -11,85 +13,119 @@ O BarberShop tem como principal propósito **otimizar a rotina de barbearias**, 
 
 ---
 
-## 👨‍💻 Tecnologias Utilizadas
+## 🏗️ Arquitetura — Monorepo (Frontend + Backend separados)
 
-- **Frontend**: HTML, CSS, JavaScript, Handlebars
-- **Backend**: Node.js + Express
-- **Banco de Dados**: MongoDB + Mongoose
-- **Testes Automatizados**: Cypress (Validação E2E)
-- **Versionamento**: Git + GitHub
+A partir desta versão, o projeto foi reestruturado em **monorepo**, separando completamente o frontend do backend:
+
+```
+barbearia/
+├── backend/          ← API REST (Node.js + Express)
+│   ├── app.js
+│   ├── config/
+│   ├── models/
+│   ├── routes/
+│   └── utils/
+├── frontend/         ← Interface (React + Vite + Tailwind CSS)
+│   ├── src/
+│   │   ├── pages/    (Home, Login, Admin, Editar)
+│   │   └── components/
+│   └── public/img/
+└── cypress/          ← Testes E2E
+```
 
 ---
 
-## 🧪 Testes de Qualidade
+## 👨‍💻 Tecnologias Utilizadas
 
-O projeto foi validado com base nos conceitos de **Verificação e Validação** da qualidade de software. Aplicações práticas incluem:
+### Backend
+- **Node.js** + **Express 5**
+- **MongoDB** + **Mongoose**
+- **bcrypt** — hash de senha
+- **express-session** + **connect-mongo** — autenticação por sessão
+- **cors** — liberação de origem para o frontend
 
-### ✅ Verificação
-- Checklists detalhados:
-  - Modelo de Negócio
-  - Proposta do Projeto
-  - Requisitos
-  - Diagramas UML
-  - Arquitetura
-  - Código-fonte
-  - Banco de Dados
+### Frontend
+- **React 18**
+- **Vite** — bundler e dev server
+- **Tailwind CSS** — estilização responsiva
+- **React Router DOM v6** — roteamento client-side
 
-### ✅ Validação
-- Utilização do **Cypress** para testes automatizados
-- Estratégia: **Caixa Preta + Testes Progressivos**
-- Cenários testados:
-  - Agendamento de serviços
-  - Login e Logout
-  - Acesso ao painel
-  - Visualização de valores
-  - Remoção de agendamento
-  - Compatibilidade com navegadores (Chrome e Edge)
+### Testes
+- **Cypress 14** — testes E2E
+
+---
+
+## ⚙️ Como rodar o projeto
+
+### Pré-requisitos
+- Node.js instalado
+- MongoDB rodando localmente (`localhost:27017`)
+
+### 1. Instalar dependências
+```bash
+# Backend
+cd backend && npm install
+
+# Frontend
+cd frontend && npm install
+```
+
+### 2. Configurar variáveis de ambiente
+Crie o arquivo `backend/.env` com o conteúdo:
+```
+MONGO_URI=mongodb://localhost:27017/barbearia
+SESSION_SECRET=segredo_super_secreto
+FRONTEND_URL=http://localhost:5173
+PORT=3000
+```
+
+### 3. Rodar (dois terminais)
+```bash
+# Terminal 1 — Backend (porta 3000)
+cd backend && npm run dev
+
+# Terminal 2 — Frontend (porta 5173)
+cd frontend && npm run dev
+```
+
+Acesse: [http://localhost:5173](http://localhost:5173)
+
+---
+
+## 🔐 Acesso Administrativo
+
+| Usuário | Senha |
+|---------|-------|
+| admin   | 1234  |
+
+Painel: [http://localhost:5173/admin/login](http://localhost:5173/admin/login)
 
 ---
 
 ## 🛠 Funcionalidades
 
-- Cadastro e login de usuários
-- Agendamento de serviços com escolha de data/hora
-- Exibição de horários disponíveis
-- Edição e remoção de agendamentos (Admin)
-- Painel administrativo com filtros por nome, serviço e data
-- Validação de conflitos de horário
+- Agendamento de serviços (nome, telefone, data, hora, serviço)
+- Painel administrativo protegido por sessão
+- Edição e remoção de agendamentos
+- Exibição de horários disponíveis por semana
+- Design responsivo (mobile, tablet, desktop)
 
 ---
 
-## ⚙️ Melhorias Implementadas
+## 📈 Futuras Implementações
 
-- Adição do botão de **editar agendamento**
-- Exibição de **horários disponíveis** por semana
-- **Redirecionamento seguro** de rotas protegidas
-- Uso de variáveis de ambiente (`.env`) para segurança
-- Modularização da aplicação (controllers, routes, models, services)
+- Validação de conflito de horário no backend
+- Filtros avançados por nome / serviço / data
+- Controle de horários por barbeiro
+- Novos testes E2E adaptados à nova arquitetura
 
 ---
 
 ## 🧑‍💼 Desenvolvedor
 
-| Nome                         | Função       |
-|------------------------------|--------------|
-| Iêgo Sérgio                  | Desenvolvedor |
-
-## 📈 Futuras Implementações
-
-- Filtros avançados por nome/serviço/data
-- Controle de horários por barbeiro
-- Validação de conflitos simultâneos
-- Testes de performance com Artillery/JMeter
-
----
-
-## 📚 Referências
-
-- BARTIÉ, Alexandre. *Garantia da Qualidade de Software*.
-- CHACON, Anderson; SPOLTI, Rafael. *Testes Automatizados com Cypress*.
-- PRESSMAN, Roger. *Engenharia de Software*.
-- SOMMERVILLE, Ian. *Engenharia de Software*.
+| Nome          | Função        |
+|---------------|---------------|
+| Iêgo Sérgio   | Desenvolvedor |
 
 ---
 
@@ -97,7 +133,4 @@ O projeto foi validado com base nos conceitos de **Verificação e Validação**
 
 Projeto desenvolvido no Instituto de Ciências Exatas e Tecnologia (ICET) – **UFAM**, sob orientação da **Profª Drª Anacilia Maria Palmeira Vieira**.
 
-📅 **Data de entrega**: 17/06/2025  
-📍 **Local**: Itacoatiara - AM
-
----
+📍 Itacoatiara - AM
