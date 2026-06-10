@@ -63,7 +63,9 @@ export default function Editar() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
-          <img src="/img/logo2.png" alt="Logo" className="h-8" />
+          <div className="bg-stone-900 rounded-lg px-2 py-1">
+            <img src="/img/logo2.png" alt="Logo" className="h-8" />
+          </div>
         </div>
         <div className="flex items-center gap-3">
           <span className="text-stone-400 text-xs hidden sm:block tracking-wider">EDITAR AGENDAMENTO</span>
