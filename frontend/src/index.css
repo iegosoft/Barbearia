@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Admin/Editar: dark form inputs need inverted calendar icon */
+  .dark-form input[type="date"]::-webkit-calendar-picker-indicator,
+  .dark-form input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.6);
+    cursor: pointer;
+  }
+
+  .dark-form select option {
+    background-color: #1a1a1a;
+    color: #f5f5f5;
+  }
+}

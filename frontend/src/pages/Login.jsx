@@ -29,34 +29,75 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#1f1f1f] to-[#0d0d0d] flex items-center justify-center px-4">
-      <div className="bg-[#1a1a1a] rounded-2xl p-10 w-full max-w-sm shadow-[0_0_30px_rgba(255,215,0,0.1)]">
-        <h1 className="font-bebas text-gold text-4xl text-center mb-2 tracking-wide">Login BarberShop</h1>
-        <img src="/img/logo2.png" alt="Logo" className="w-24 mx-auto mb-6" />
+    <div className="min-h-screen flex font-roboto">
 
-        {erro && (
-          <p className="bg-red-900/50 text-red-300 text-center rounded p-2 mb-4 text-sm">{erro}</p>
-        )}
+      {/* Left — form */}
+      <div className="w-full lg:w-[42%] flex flex-col justify-center px-8 sm:px-16 py-12 bg-white">
+        <div className="max-w-sm w-full mx-auto">
+          <img src="/img/logo.png" alt="BarberShop" className="h-10 mb-10" />
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input
-            className="bg-[#1e1e1e] border border-[#444] text-white rounded p-3 focus:outline-none focus:border-gold"
-            type="text" name="usuario" placeholder="Usuário" required
-            value={usuario} onChange={e => setUsuario(e.target.value)}
-          />
-          <input
-            className="bg-[#1e1e1e] border border-[#444] text-white rounded p-3 focus:outline-none focus:border-gold"
-            type="password" name="senha" placeholder="Senha" required
-            value={senha} onChange={e => setSenha(e.target.value)}
-          />
-          <button
-            type="submit"
-            className="bg-gold text-black font-bold py-3 rounded hover:bg-gold-hover transition-colors cursor-pointer"
-          >
-            Entrar
-          </button>
-        </form>
+          <p className="font-playfair italic text-gold text-sm mb-2">Bem-vindo de volta</p>
+          <h1 className="font-bebas text-stone-900 text-5xl tracking-wide mb-8">
+            Área Administrativa
+          </h1>
+
+          {erro && (
+            <div className="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 mb-6">
+              {erro}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            <div>
+              <label className="block text-stone-500 text-xs uppercase tracking-[0.15em] mb-2">Usuário</label>
+              <input
+                className="w-full px-4 py-3 border border-stone-300 text-stone-900 placeholder-stone-400 focus:outline-none focus:border-gold transition-colors text-sm"
+                type="text" name="usuario" placeholder="admin" required
+                value={usuario} onChange={e => setUsuario(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-stone-500 text-xs uppercase tracking-[0.15em] mb-2">Senha</label>
+              <input
+                className="w-full px-4 py-3 border border-stone-300 text-stone-900 placeholder-stone-400 focus:outline-none focus:border-gold transition-colors text-sm"
+                type="password" name="senha" placeholder="••••••" required
+                value={senha} onChange={e => setSenha(e.target.value)}
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full mt-2 bg-stone-900 text-white font-bold py-3.5 hover:bg-gold hover:text-black transition-colors text-xs tracking-[0.2em] uppercase cursor-pointer"
+            >
+              Entrar
+            </button>
+          </form>
+
+          <div className="mt-8 pt-6 border-t border-stone-200">
+            <a href="/" className="text-stone-400 hover:text-gold text-xs transition-colors">
+              ← Voltar ao site
+            </a>
+          </div>
+        </div>
       </div>
+
+      {/* Right — image */}
+      <div className="hidden lg:block flex-1 relative overflow-hidden">
+        <img
+          src="/img/barbershop-interior.jpg"
+          alt="BarberShop"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-stone-900/40" />
+        <div className="absolute inset-0 flex flex-col justify-end p-12">
+          <h2 className="font-bebas text-white text-6xl leading-none tracking-wide mb-3">
+            BARBER<span className="text-gold">SHOP</span>
+          </h2>
+          <p className="text-stone-300 text-sm font-playfair italic max-w-xs">
+            Cortes precisos. Estilo sem igual. Experiência que você merece.
+          </p>
+        </div>
+      </div>
+
     </div>
   )
 }
