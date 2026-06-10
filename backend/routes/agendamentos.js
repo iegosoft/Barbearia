@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Agendamento = require('../models/Agendamento');
+const validarAgendamento = require('../utils/validarAgendamento');
 
 function autenticar(req, res, next) {
   if (req.session.usuario) return next();
@@ -30,6 +31,9 @@ router.post('/', async (req, res) => {
   try {
     const { nome, telefone, data, hora, servico } = req.body;
 
+    const erros = validarAgendamento({ nome, telefone, data, hora, servico });
+    if (erros.length > 0) return res.status(400).json({ erro: erros[0] });
+
     const conflito = await Agendamento.findOne({ data, hora });
     if (conflito) {
       return res.status(409).json({ erro: 'Horário indisponível. Já existe um agendamento nesse dia e horário.' });
@@ -46,6 +50,9 @@ router.post('/', async (req, res) => {
 router.put('/:id', autenticar, async (req, res) => {
   try {
     const { nome, telefone, data, hora, servico } = req.body;
+
+    const erros = validarAgendamento({ nome, telefone, data, hora, servico });
+    if (erros.length > 0) return res.status(400).json({ erro: erros[0] });
 
     const conflito = await Agendamento.findOne({ data, hora, _id: { $ne: req.params.id } });
     if (conflito) {
