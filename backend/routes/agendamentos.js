@@ -16,6 +16,25 @@ router.get('/barbeiros', (req, res) => {
   res.json(BARBEIROS);
 });
 
+// Estatísticas do dashboard — sempre sobre todos os registros, sem filtros
+router.get('/stats', autenticar, async (req, res) => {
+  try {
+    const hoje = new Date();
+    const dataHoje = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${String(hoje.getDate()).padStart(2, '0')}`;
+
+    const [totalHoje, pendentes, concluidosHoje, pendentesHoje] = await Promise.all([
+      Agendamento.countDocuments({ data: dataHoje }),
+      Agendamento.countDocuments({ status: 'pendente' }),
+      Agendamento.countDocuments({ data: dataHoje, status: 'concluido' }),
+      Agendamento.countDocuments({ data: dataHoje, status: 'pendente' }),
+    ]);
+
+    res.json({ hoje: totalHoje, pendentes, concluidosHoje, pendentesHoje });
+  } catch {
+    res.status(500).json({ erro: 'Erro ao calcular estatísticas' });
+  }
+});
+
 // Lista agendamentos com filtros opcionais
 router.get('/', autenticar, async (req, res) => {
   try {
